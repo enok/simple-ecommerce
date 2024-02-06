@@ -1,1 +1,0 @@
-https://app.swaggerhub.com/apis/enok/simple_e-commerce_API/1.0.0
