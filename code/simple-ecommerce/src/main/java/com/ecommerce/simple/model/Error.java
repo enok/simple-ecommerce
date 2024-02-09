@@ -26,6 +26,8 @@ public class Error {
     }
 
     private String cleanUpMessage(final String message) {
-        return message.replaceAll("public com\\.ecommerce\\.simple.*", "");
+        return message
+                .replaceAll("public com\\.ecommerce\\.simple.*", "")
+                .replaceAll(" for \\[class com\\.ecommerce\\.simple.*\\]", "");
     }
 }

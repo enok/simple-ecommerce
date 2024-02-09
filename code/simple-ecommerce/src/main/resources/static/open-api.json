@@ -226,54 +226,6 @@
               }
             }
           },
-          "414": {
-            "description": "Request-URI Too Large",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "httpCode": {
-                      "type": "integer",
-                      "format": "int64",
-                      "example": 414
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Request-URI Too Large"
-                    },
-                    "detailedMessage": {
-                      "type": "string",
-                      "example": "URI limits check failed."
-                    }
-                  }
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "httpCode": {
-                      "type": "integer",
-                      "format": "int64",
-                      "example": 414
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Request-URI Too Large"
-                    },
-                    "detailedMessage": {
-                      "type": "string",
-                      "example": "URI limits check failed."
-                    }
-                  },
-                  "xml": {
-                    "name": "error"
-                  }
-                }
-              }
-            }
-          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -706,54 +658,6 @@
               }
             }
           },
-          "413": {
-            "description": "Request Entity Too Large",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "httpCode": {
-                      "type": "integer",
-                      "format": "int64",
-                      "example": 413
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Request Entity Too Large"
-                    },
-                    "detailedMessage": {
-                      "type": "string",
-                      "example": "Payload limits check failed."
-                    }
-                  }
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "httpCode": {
-                      "type": "integer",
-                      "format": "int64",
-                      "example": 413
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Request Entity Too Large"
-                    },
-                    "detailedMessage": {
-                      "type": "string",
-                      "example": "Payload limits check failed."
-                    }
-                  },
-                  "xml": {
-                    "name": "error"
-                  }
-                }
-              }
-            }
-          },
           "415": {
             "description": "Unsupported Media Type",
             "content": {
@@ -1140,54 +1044,6 @@
                     "detailedMessage": {
                       "type": "string",
                       "example": "Requested content type not acceptable."
-                    }
-                  },
-                  "xml": {
-                    "name": "error"
-                  }
-                }
-              }
-            }
-          },
-          "414": {
-            "description": "Request-URI Too Large",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "httpCode": {
-                      "type": "integer",
-                      "format": "int64",
-                      "example": 414
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Request-URI Too Large"
-                    },
-                    "detailedMessage": {
-                      "type": "string",
-                      "example": "URI limits check failed."
-                    }
-                  }
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "httpCode": {
-                      "type": "integer",
-                      "format": "int64",
-                      "example": 414
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Request-URI Too Large"
-                    },
-                    "detailedMessage": {
-                      "type": "string",
-                      "example": "URI limits check failed."
                     }
                   },
                   "xml": {
@@ -1689,102 +1545,6 @@
               }
             }
           },
-          "413": {
-            "description": "Request Entity Too Large",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "httpCode": {
-                      "type": "integer",
-                      "format": "int64",
-                      "example": 413
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Request Entity Too Large"
-                    },
-                    "detailedMessage": {
-                      "type": "string",
-                      "example": "Payload limits check failed."
-                    }
-                  }
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "httpCode": {
-                      "type": "integer",
-                      "format": "int64",
-                      "example": 413
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Request Entity Too Large"
-                    },
-                    "detailedMessage": {
-                      "type": "string",
-                      "example": "Payload limits check failed."
-                    }
-                  },
-                  "xml": {
-                    "name": "error"
-                  }
-                }
-              }
-            }
-          },
-          "414": {
-            "description": "Request-URI Too Large",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "httpCode": {
-                      "type": "integer",
-                      "format": "int64",
-                      "example": 414
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Request-URI Too Large"
-                    },
-                    "detailedMessage": {
-                      "type": "string",
-                      "example": "URI limits check failed."
-                    }
-                  }
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "httpCode": {
-                      "type": "integer",
-                      "format": "int64",
-                      "example": 414
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Request-URI Too Large"
-                    },
-                    "detailedMessage": {
-                      "type": "string",
-                      "example": "URI limits check failed."
-                    }
-                  },
-                  "xml": {
-                    "name": "error"
-                  }
-                }
-              }
-            }
-          },
           "415": {
             "description": "Unsupported Media Type",
             "content": {
@@ -2126,54 +1886,6 @@
               }
             }
           },
-          "414": {
-            "description": "Request-URI Too Large",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "httpCode": {
-                      "type": "integer",
-                      "format": "int64",
-                      "example": 414
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Request-URI Too Large"
-                    },
-                    "detailedMessage": {
-                      "type": "string",
-                      "example": "URI limits check failed."
-                    }
-                  }
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "httpCode": {
-                      "type": "integer",
-                      "format": "int64",
-                      "example": 414
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Request-URI Too Large"
-                    },
-                    "detailedMessage": {
-                      "type": "string",
-                      "example": "URI limits check failed."
-                    }
-                  },
-                  "xml": {
-                    "name": "error"
-                  }
-                }
-              }
-            }
-          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -2440,54 +2152,6 @@
                     "detailedMessage": {
                       "type": "string",
                       "example": "Requested content type not acceptable."
-                    }
-                  },
-                  "xml": {
-                    "name": "error"
-                  }
-                }
-              }
-            }
-          },
-          "414": {
-            "description": "Request-URI Too Large",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "httpCode": {
-                      "type": "integer",
-                      "format": "int64",
-                      "example": 414
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Request-URI Too Large"
-                    },
-                    "detailedMessage": {
-                      "type": "string",
-                      "example": "URI limits check failed."
-                    }
-                  }
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "httpCode": {
-                      "type": "integer",
-                      "format": "int64",
-                      "example": 414
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Request-URI Too Large"
-                    },
-                    "detailedMessage": {
-                      "type": "string",
-                      "example": "URI limits check failed."
                     }
                   },
                   "xml": {
@@ -2875,54 +2539,6 @@
               }
             }
           },
-          "413": {
-            "description": "Request Entity Too Large",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "httpCode": {
-                      "type": "integer",
-                      "format": "int64",
-                      "example": 413
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Request Entity Too Large"
-                    },
-                    "detailedMessage": {
-                      "type": "string",
-                      "example": "Payload limits check failed."
-                    }
-                  }
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "httpCode": {
-                      "type": "integer",
-                      "format": "int64",
-                      "example": 413
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Request Entity Too Large"
-                    },
-                    "detailedMessage": {
-                      "type": "string",
-                      "example": "Payload limits check failed."
-                    }
-                  },
-                  "xml": {
-                    "name": "error"
-                  }
-                }
-              }
-            }
-          },
           "415": {
             "description": "Unsupported Media Type",
             "content": {
@@ -3287,54 +2903,6 @@
                     "detailedMessage": {
                       "type": "string",
                       "example": "Requested content type not acceptable."
-                    }
-                  },
-                  "xml": {
-                    "name": "error"
-                  }
-                }
-              }
-            }
-          },
-          "414": {
-            "description": "Request-URI Too Large",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "httpCode": {
-                      "type": "integer",
-                      "format": "int64",
-                      "example": 414
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Request-URI Too Large"
-                    },
-                    "detailedMessage": {
-                      "type": "string",
-                      "example": "URI limits check failed."
-                    }
-                  }
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "httpCode": {
-                      "type": "integer",
-                      "format": "int64",
-                      "example": 414
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Request-URI Too Large"
-                    },
-                    "detailedMessage": {
-                      "type": "string",
-                      "example": "URI limits check failed."
                     }
                   },
                   "xml": {
@@ -3782,102 +3350,6 @@
               }
             }
           },
-          "413": {
-            "description": "Request Entity Too Large",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "httpCode": {
-                      "type": "integer",
-                      "format": "int64",
-                      "example": 413
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Request Entity Too Large"
-                    },
-                    "detailedMessage": {
-                      "type": "string",
-                      "example": "Payload limits check failed."
-                    }
-                  }
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "httpCode": {
-                      "type": "integer",
-                      "format": "int64",
-                      "example": 413
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Request Entity Too Large"
-                    },
-                    "detailedMessage": {
-                      "type": "string",
-                      "example": "Payload limits check failed."
-                    }
-                  },
-                  "xml": {
-                    "name": "error"
-                  }
-                }
-              }
-            }
-          },
-          "414": {
-            "description": "Request-URI Too Large",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "httpCode": {
-                      "type": "integer",
-                      "format": "int64",
-                      "example": 414
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Request-URI Too Large"
-                    },
-                    "detailedMessage": {
-                      "type": "string",
-                      "example": "URI limits check failed."
-                    }
-                  }
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "httpCode": {
-                      "type": "integer",
-                      "format": "int64",
-                      "example": 414
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Request-URI Too Large"
-                    },
-                    "detailedMessage": {
-                      "type": "string",
-                      "example": "URI limits check failed."
-                    }
-                  },
-                  "xml": {
-                    "name": "error"
-                  }
-                }
-              }
-            }
-          },
           "415": {
             "description": "Unsupported Media Type",
             "content": {
@@ -4219,54 +3691,6 @@
               }
             }
           },
-          "414": {
-            "description": "Request-URI Too Large",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "httpCode": {
-                      "type": "integer",
-                      "format": "int64",
-                      "example": 414
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Request-URI Too Large"
-                    },
-                    "detailedMessage": {
-                      "type": "string",
-                      "example": "URI limits check failed."
-                    }
-                  }
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "httpCode": {
-                      "type": "integer",
-                      "format": "int64",
-                      "example": 414
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Request-URI Too Large"
-                    },
-                    "detailedMessage": {
-                      "type": "string",
-                      "example": "URI limits check failed."
-                    }
-                  },
-                  "xml": {
-                    "name": "error"
-                  }
-                }
-              }
-            }
-          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -4567,54 +3991,6 @@
                     "detailedMessage": {
                       "type": "string",
                       "example": "Requested content type not acceptable."
-                    }
-                  },
-                  "xml": {
-                    "name": "error"
-                  }
-                }
-              }
-            }
-          },
-          "414": {
-            "description": "Request-URI Too Large",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "httpCode": {
-                      "type": "integer",
-                      "format": "int64",
-                      "example": 414
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Request-URI Too Large"
-                    },
-                    "detailedMessage": {
-                      "type": "string",
-                      "example": "URI limits check failed."
-                    }
-                  }
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "httpCode": {
-                      "type": "integer",
-                      "format": "int64",
-                      "example": 414
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Request-URI Too Large"
-                    },
-                    "detailedMessage": {
-                      "type": "string",
-                      "example": "URI limits check failed."
                     }
                   },
                   "xml": {
@@ -5050,54 +4426,6 @@
               }
             }
           },
-          "413": {
-            "description": "Request Entity Too Large",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "httpCode": {
-                      "type": "integer",
-                      "format": "int64",
-                      "example": 413
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Request Entity Too Large"
-                    },
-                    "detailedMessage": {
-                      "type": "string",
-                      "example": "Payload limits check failed."
-                    }
-                  }
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "httpCode": {
-                      "type": "integer",
-                      "format": "int64",
-                      "example": 413
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Request Entity Too Large"
-                    },
-                    "detailedMessage": {
-                      "type": "string",
-                      "example": "Payload limits check failed."
-                    }
-                  },
-                  "xml": {
-                    "name": "error"
-                  }
-                }
-              }
-            }
-          },
           "415": {
             "description": "Unsupported Media Type",
             "content": {
@@ -5496,54 +4824,6 @@
                     "detailedMessage": {
                       "type": "string",
                       "example": "Requested content type not acceptable."
-                    }
-                  },
-                  "xml": {
-                    "name": "error"
-                  }
-                }
-              }
-            }
-          },
-          "414": {
-            "description": "Request-URI Too Large",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "httpCode": {
-                      "type": "integer",
-                      "format": "int64",
-                      "example": 414
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Request-URI Too Large"
-                    },
-                    "detailedMessage": {
-                      "type": "string",
-                      "example": "URI limits check failed."
-                    }
-                  }
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "httpCode": {
-                      "type": "integer",
-                      "format": "int64",
-                      "example": 414
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Request-URI Too Large"
-                    },
-                    "detailedMessage": {
-                      "type": "string",
-                      "example": "URI limits check failed."
                     }
                   },
                   "xml": {
@@ -6039,102 +5319,6 @@
               }
             }
           },
-          "413": {
-            "description": "Request Entity Too Large",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "httpCode": {
-                      "type": "integer",
-                      "format": "int64",
-                      "example": 413
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Request Entity Too Large"
-                    },
-                    "detailedMessage": {
-                      "type": "string",
-                      "example": "Payload limits check failed."
-                    }
-                  }
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "httpCode": {
-                      "type": "integer",
-                      "format": "int64",
-                      "example": 413
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Request Entity Too Large"
-                    },
-                    "detailedMessage": {
-                      "type": "string",
-                      "example": "Payload limits check failed."
-                    }
-                  },
-                  "xml": {
-                    "name": "error"
-                  }
-                }
-              }
-            }
-          },
-          "414": {
-            "description": "Request-URI Too Large",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "httpCode": {
-                      "type": "integer",
-                      "format": "int64",
-                      "example": 414
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Request-URI Too Large"
-                    },
-                    "detailedMessage": {
-                      "type": "string",
-                      "example": "URI limits check failed."
-                    }
-                  }
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "httpCode": {
-                      "type": "integer",
-                      "format": "int64",
-                      "example": 414
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Request-URI Too Large"
-                    },
-                    "detailedMessage": {
-                      "type": "string",
-                      "example": "URI limits check failed."
-                    }
-                  },
-                  "xml": {
-                    "name": "error"
-                  }
-                }
-              }
-            }
-          },
           "415": {
             "description": "Unsupported Media Type",
             "content": {
@@ -6476,54 +5660,6 @@
               }
             }
           },
-          "414": {
-            "description": "Request-URI Too Large",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "httpCode": {
-                      "type": "integer",
-                      "format": "int64",
-                      "example": 414
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Request-URI Too Large"
-                    },
-                    "detailedMessage": {
-                      "type": "string",
-                      "example": "URI limits check failed."
-                    }
-                  }
-                }
-              },
-              "application/xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "httpCode": {
-                      "type": "integer",
-                      "format": "int64",
-                      "example": 414
-                    },
-                    "message": {
-                      "type": "string",
-                      "example": "Request-URI Too Large"
-                    },
-                    "detailedMessage": {
-                      "type": "string",
-                      "example": "URI limits check failed."
-                    }
-                  },
-                  "xml": {
-                    "name": "error"
-                  }
-                }
-              }
-            }
-          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -6709,42 +5845,6 @@
           "detailedMessage": {
             "type": "string",
             "example": "Requested content type not acceptable."
-          }
-        }
-      },
-      "413": {
-        "type": "object",
-        "properties": {
-          "httpCode": {
-            "type": "integer",
-            "format": "int64",
-            "example": 413
-          },
-          "message": {
-            "type": "string",
-            "example": "Request Entity Too Large"
-          },
-          "detailedMessage": {
-            "type": "string",
-            "example": "Payload limits check failed."
-          }
-        }
-      },
-      "414": {
-        "type": "object",
-        "properties": {
-          "httpCode": {
-            "type": "integer",
-            "format": "int64",
-            "example": 414
-          },
-          "message": {
-            "type": "string",
-            "example": "Request-URI Too Large"
-          },
-          "detailedMessage": {
-            "type": "string",
-            "example": "URI limits check failed."
           }
         }
       },
@@ -7354,102 +6454,6 @@
                 "detailedMessage": {
                   "type": "string",
                   "example": "Requested content type not acceptable."
-                }
-              },
-              "xml": {
-                "name": "error"
-              }
-            }
-          }
-        }
-      },
-      "413": {
-        "description": "Request Entity Too Large",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "httpCode": {
-                  "type": "integer",
-                  "format": "int64",
-                  "example": 413
-                },
-                "message": {
-                  "type": "string",
-                  "example": "Request Entity Too Large"
-                },
-                "detailedMessage": {
-                  "type": "string",
-                  "example": "Payload limits check failed."
-                }
-              }
-            }
-          },
-          "application/xml": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "httpCode": {
-                  "type": "integer",
-                  "format": "int64",
-                  "example": 413
-                },
-                "message": {
-                  "type": "string",
-                  "example": "Request Entity Too Large"
-                },
-                "detailedMessage": {
-                  "type": "string",
-                  "example": "Payload limits check failed."
-                }
-              },
-              "xml": {
-                "name": "error"
-              }
-            }
-          }
-        }
-      },
-      "414": {
-        "description": "Request-URI Too Large",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "httpCode": {
-                  "type": "integer",
-                  "format": "int64",
-                  "example": 414
-                },
-                "message": {
-                  "type": "string",
-                  "example": "Request-URI Too Large"
-                },
-                "detailedMessage": {
-                  "type": "string",
-                  "example": "URI limits check failed."
-                }
-              }
-            }
-          },
-          "application/xml": {
-            "schema": {
-              "type": "object",
-              "properties": {
-                "httpCode": {
-                  "type": "integer",
-                  "format": "int64",
-                  "example": 414
-                },
-                "message": {
-                  "type": "string",
-                  "example": "Request-URI Too Large"
-                },
-                "detailedMessage": {
-                  "type": "string",
-                  "example": "URI limits check failed."
                 }
               },
               "xml": {

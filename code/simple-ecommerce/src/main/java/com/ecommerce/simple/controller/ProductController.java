@@ -1,5 +1,6 @@
 package com.ecommerce.simple.controller;
 
+import com.ecommerce.simple.exception.DuplicateKeyValueException;
 import com.ecommerce.simple.exception.NotFoundException;
 import com.ecommerce.simple.model.Product;
 import com.ecommerce.simple.repository.ProductRepository;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+import static java.lang.String.*;
 import static java.lang.String.format;
 
 @RestController
@@ -28,10 +30,19 @@ public class ProductController {
     public Product createProduct(@RequestBody Product product) {
         log.debug("[ createProduct ] product: {}", product);
 
+        checkIfTheProductAlreadyExists(product);
+
         Product productCreated = productRepository.save(product);
         log.debug("Product created: {}", product);
 
         return productCreated;
+    }
+
+    private void checkIfTheProductAlreadyExists(Product product) {
+        productRepository.findByName(product.getName())
+                .ifPresent(p -> {
+                    throw new DuplicateKeyValueException(format("Product '%s' already exists.", p.getName()));
+                });
     }
 
     @GetMapping(produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
@@ -49,7 +60,7 @@ public class ProductController {
 
     @GetMapping(value = "/{id}",
             produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
-    public Product getProductById(@PathVariable Long id) {
+    public Product getProductById(@PathVariable Integer id) {
         log.debug("[ getProductById ] id: {}", id);
 
         Optional<Product> product = productRepository.findById(id);
@@ -61,7 +72,7 @@ public class ProductController {
     @PutMapping(value = "/{id}",
             consumes = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE},
             produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
-    public Product updateProductById(@PathVariable Long id, @RequestBody Product product) {
+    public Product updateProductById(@PathVariable Integer id, @RequestBody Product product) {
         log.debug("[ updateProductById ] id: {}, product: {}", id, product);
 
         // checks if the product exist with such id
@@ -77,7 +88,7 @@ public class ProductController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Void> deleteProductById(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteProductById(@PathVariable Integer id) {
         log.debug("[ deleteProductById ] id: {}", id);
 
         // checks if the product exist with such id
