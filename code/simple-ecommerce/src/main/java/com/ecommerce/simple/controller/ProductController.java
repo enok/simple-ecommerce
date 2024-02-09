@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-import static java.lang.String.*;
 import static java.lang.String.format;
 
 @RestController
@@ -33,7 +32,7 @@ public class ProductController {
         checkIfTheProductAlreadyExists(product);
 
         Product productCreated = productRepository.save(product);
-        log.debug("Product created: {}", product);
+        log.debug("Product created: {}", productCreated);
 
         return productCreated;
     }
@@ -48,6 +47,7 @@ public class ProductController {
     @GetMapping(produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public List<Product> getAllProducts() {
         log.debug("[ getAllProducts ]");
+
         List<Product> allProducts = productRepository.findAll();
         log.debug("Products found: {}", allProducts);
 

@@ -1,15 +1,12 @@
 package com.ecommerce.simple.controller;
 
 import com.ecommerce.simple.exception.CustomExceptionHandler;
-import com.ecommerce.simple.model.Product;
-import com.ecommerce.simple.repository.ProductRepository;
+import com.ecommerce.simple.model.Order;
+import com.ecommerce.simple.repository.OrderRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +23,6 @@ import org.testcontainers.utility.DockerImageName;
 
 import java.net.ConnectException;
 
-import static org.mockito.ArgumentMatchers.anyMap;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -36,7 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @Testcontainers
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class ProductControllerTest {
+class OrderControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -58,32 +54,32 @@ class ProductControllerTest {
      * 200
      */
     @Test
-    @Order(1)
-    public void createProduct() throws Exception {
-        var product = Product.builder()
-                .name("new tv")
-                .description("high definition television")
-                .quantity(10)
-                .price(500.0)
+    @org.junit.jupiter.api.Order(1)
+    public void createOrder() throws Exception {
+        var order = Order.builder()
+                .description("sales 1")
+                .totalAmount(0.0)
                 .build();
         mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/products")
+                        .post("/api/orders")
                         .contentType("application/json")
                         .accept("application/json")
-                        .content(asJsonString(product)))
+                        .content(asJsonString(order)))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").exists());
+                .andExpect(jsonPath("$.id").value(1))
+                .andExpect(jsonPath("$.description").value("sales 1"))
+                .andExpect(jsonPath("$.totalAmount").value(0));
     }
 
     /**
      * 200
      */
     @Test
-    @Order(2)
-    public void getAllProducts() throws Exception {
+    @org.junit.jupiter.api.Order(2)
+    public void getAllOrders() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/api/products")
+                        .get("/api/orders")
                         .accept("application/json"))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -95,126 +91,92 @@ class ProductControllerTest {
      * 200
      */
     @Test
-    @Order(3)
-    public void createProductWithoutDescription() throws Exception {
-        var product = Product.builder()
-                .name("new tv 1")
-                .quantity(10)
-                .price(500.0)
-                .build();
+    @org.junit.jupiter.api.Order(4)
+    public void getOrderById() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/products")
-                        .contentType("application/json")
-                        .accept("application/json")
-                        .content(asJsonString(product)))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").exists());
-    }
-
-    /**
-     * 200
-     */
-    @Test
-    @Order(4)
-    public void getProductById() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders
-                        .get("/api/products/1")
+                        .get("/api/orders/1")
                         .accept("application/json"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1))
-                .andExpect(jsonPath("$.name").value("new tv"))
-                .andExpect(jsonPath("$.description").value("high definition television"))
-                .andExpect(jsonPath("$.quantity").value(10))
-                .andExpect(jsonPath("$.price").value(500.));
+                .andExpect(jsonPath("$.description").value("sales 1"))
+                .andExpect(jsonPath("$.totalAmount").value(0));
     }
 
     /**
      * 200
      */
     @Test
-    @Order(5)
-    public void updateProduct() throws Exception {
-        var product = Product.builder()
-                .name("pc")
-                .description("personal computer")
-                .quantity(5)
-                .price(1000.0)
+    @org.junit.jupiter.api.Order(5)
+    public void updateOrder() throws Exception {
+        var order = Order.builder()
+                .description("sales 2")
+                .totalAmount(1000.0)
                 .build();
+
         mockMvc.perform(MockMvcRequestBuilders
-                        .put("/api/products/1")
+                        .put("/api/orders/1")
                         .contentType("application/json")
                         .accept("application/json")
-                        .content(asJsonString(product)))
+                        .content(asJsonString(order)))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1))
-                .andExpect(jsonPath("$.name").value("pc"))
-                .andExpect(jsonPath("$.description").value("personal computer"))
-                .andExpect(jsonPath("$.quantity").value(5))
-                .andExpect(jsonPath("$.price").value(1000.0));
+                .andExpect(jsonPath("$.description").value("sales 2"))
+                .andExpect(jsonPath("$.totalAmount").value(1000.0));
     }
 
     /**
      * 200
      */
     @Test
-    @Order(6)
-    public void updateProductTryingToChangeAnotherProduct() throws Exception {
-        var product1 = Product.builder()
-                .name("keyboard")
-                .description("game keyboard")
-                .quantity(20)
-                .price(100.0)
+    @org.junit.jupiter.api.Order(6)
+    public void updateOrderTryingToChangeAnotherOrder() throws Exception {
+        var order1 = Order.builder()
+                .description("sales 10")
+                .totalAmount(0.0)
                 .build();
         mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/products")
+                        .post("/api/orders")
                         .contentType("application/json")
                         .accept("application/json")
-                        .content(asJsonString(product1)));
+                        .content(asJsonString(order1)));
 
-        var product = Product.builder()
+        var order = Order.builder()
                 .id(2)
-                .name("pc")
-                .description("personal computer")
-                .quantity(5)
-                .price(1000.0)
+                .description("sales 2")
+                .totalAmount(1000.0)
                 .build();
         mockMvc.perform(MockMvcRequestBuilders
-                        .put("/api/products/1")
+                        .put("/api/orders/1")
                         .contentType("application/json")
                         .accept("application/json")
-                        .content(asJsonString(product)))
+                        .content(asJsonString(order)))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1))
-                .andExpect(jsonPath("$.name").value("pc"))
-                .andExpect(jsonPath("$.description").value("personal computer"))
-                .andExpect(jsonPath("$.quantity").value(5))
-                .andExpect(jsonPath("$.price").value(1000.0));
+                .andExpect(jsonPath("$.description").value("sales 2"))
+                .andExpect(jsonPath("$.totalAmount").value(1000.0));
 
         // second not altered
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/api/products/3")
+                        .get("/api/orders/2")
                         .accept("application/json"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(3))
-                .andExpect(jsonPath("$.name").value("keyboard"))
-                .andExpect(jsonPath("$.description").value("game keyboard"))
-                .andExpect(jsonPath("$.quantity").value(20))
-                .andExpect(jsonPath("$.price").value(100.0));
+                .andExpect(jsonPath("$.id").value(2))
+                .andExpect(jsonPath("$.description").value("sales 10"))
+                .andExpect(jsonPath("$.totalAmount").value(0));
     }
 
     /**
      * 200
      */
     @Test
-    @Order(7)
-    public void deleteProduct() throws Exception {
+    @org.junit.jupiter.api.Order(7)
+    public void deleteOrder() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                        .delete("/api/products/2"))
+                        .delete("/api/orders/2"))
                 .andDo(print())
                 .andExpect(status().isNoContent());
     }
@@ -223,34 +185,52 @@ class ProductControllerTest {
      * 400
      */
     @Test
-    @Order(8)
-    public void createProductWithSameName() throws Exception {
-        var product = Product.builder()
-                .name("pc")
-                .description("high definition television")
-                .quantity(10)
-                .price(500.0)
+    @org.junit.jupiter.api.Order(8)
+    public void createOrderWithoutDescription() throws Exception {
+        var order = Order.builder()
+                .totalAmount(0.0)
                 .build();
         mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/products")
+                        .post("/api/orders")
                         .contentType("application/json")
                         .accept("application/json")
-                        .content(asJsonString(product)))
+                        .content(asJsonString(order)))
                 .andDo(print())
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.httpCode").value(400))
                 .andExpect(jsonPath("$.message").value("Bad Request"))
-                .andExpect(jsonPath("$.detailedMessage").value("Product 'pc' already exists."));
+                .andExpect(jsonPath("$.detailedMessage").value("[description is mandatory]"));
     }
 
     /**
      * 400
      */
     @Test
-    @Order(9)
-    public void createProductWithoutBody() throws Exception {
+    @org.junit.jupiter.api.Order(8)
+    public void createOrderWithoutAmount() throws Exception {
+        var order = Order.builder()
+                .description("sales 2")
+                .build();
         mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/products")
+                        .post("/api/orders")
+                        .contentType("application/json")
+                        .accept("application/json")
+                        .content(asJsonString(order)))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.httpCode").value(400))
+                .andExpect(jsonPath("$.message").value("Bad Request"))
+                .andExpect(jsonPath("$.detailedMessage").value("[totalAmount is mandatory]"));
+    }
+
+    /**
+     * 400
+     */
+    @Test
+    @org.junit.jupiter.api.Order(9)
+    public void createOrderWithoutBody() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders
+                        .post("/api/orders")
                         .contentType("application/json")
                         .accept("application/json")
                         .content(""))
@@ -265,79 +245,10 @@ class ProductControllerTest {
      * 400
      */
     @Test
-    @Order(10)
-    public void createProductWithoutName() throws Exception {
-        var product = Product.builder()
-                .description("high definition television")
-                .quantity(10)
-                .price(500.0)
-                .build();
+    @org.junit.jupiter.api.Order(10)
+    public void createOrderWithEmptyBody() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/products")
-                        .contentType("application/json")
-                        .accept("application/json")
-                        .content(asJsonString(product)))
-                .andDo(print())
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.httpCode").value(400))
-                .andExpect(jsonPath("$.message").value("Bad Request"))
-                .andExpect(jsonPath("$.detailedMessage").value("[name is mandatory]"));
-    }
-
-    /**
-     * 400
-     */
-    @Test
-    @Order(11)
-    public void createProductWithoutQuantity() throws Exception {
-        var product = Product.builder()
-                .name("new tv 3")
-                .description("high definition television")
-                .price(500.0)
-                .build();
-        mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/products")
-                        .contentType("application/json")
-                        .accept("application/json")
-                        .content(asJsonString(product)))
-                .andDo(print())
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.httpCode").value(400))
-                .andExpect(jsonPath("$.message").value("Bad Request"))
-                .andExpect(jsonPath("$.detailedMessage").value("[quantity is mandatory]"));
-    }
-
-    /**
-     * 400
-     */
-    @Test
-    @Order(12)
-    public void createProductWithoutPrice() throws Exception {
-        var product = Product.builder()
-                .name("new tv 4")
-                .description("high definition television")
-                .quantity(10)
-                .build();
-        mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/products")
-                        .contentType("application/json")
-                        .accept("application/json")
-                        .content(asJsonString(product)))
-                .andDo(print())
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.httpCode").value(400))
-                .andExpect(jsonPath("$.message").value("Bad Request"))
-                .andExpect(jsonPath("$.detailedMessage").value("[price is mandatory]"));
-    }
-
-    /**
-     * 400
-     */
-    @Test
-    @Order(13)
-    public void createProductWithEmptyBody() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/products")
+                        .post("/api/orders")
                         .contentType("application/json")
                         .accept("application/json")
                         .content("{}"))
@@ -345,119 +256,113 @@ class ProductControllerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.httpCode").value(400))
                 .andExpect(jsonPath("$.message").value("Bad Request"))
-                .andExpect(jsonPath("$.detailedMessage").value("[name is mandatory, price is mandatory, quantity is mandatory]"));
+                .andExpect(jsonPath("$.detailedMessage").value("[description is mandatory, totalAmount is mandatory]"));
     }
 
     /**
      * 404
      */
     @Test
-    @Order(14)
-    public void deleteProductNotFound() throws Exception {
+    @org.junit.jupiter.api.Order(11)
+    public void deleteOrderNotFound() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                        .delete("/api/products/2"))
+                        .delete("/api/orders/2"))
                 .andDo(print())
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.httpCode").value(404))
                 .andExpect(jsonPath("$.message").value("Not Found"))
-                .andExpect(jsonPath("$.detailedMessage").value("Product of id 2 not found."));
+                .andExpect(jsonPath("$.detailedMessage").value("Order of id 2 not found."));
     }
 
     /**
      * 404
      */
     @Test
-    @Order(15)
-    public void getAllProductsNotFound() throws Exception {
+    @org.junit.jupiter.api.Order(12)
+    public void getAllOrdersNotFound() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                        .delete("/api/products/1"));
+                        .delete("/api/orders/1"));
         mockMvc.perform(MockMvcRequestBuilders
-                .delete("/api/products/3"));
+                .delete("/api/orders/3"));
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/api/products")
+                        .get("/api/orders")
                         .accept("application/json"))
                 .andDo(print())
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.httpCode").value(404))
                 .andExpect(jsonPath("$.message").value("Not Found"))
-                .andExpect(jsonPath("$.detailedMessage").value("No products found."));
+                .andExpect(jsonPath("$.detailedMessage").value("No orders found."));
     }
 
     /**
      * 404
      */
     @Test
-    @Order(16)
-    public void getProductByIdNotFound() throws Exception {
+    @org.junit.jupiter.api.Order(13)
+    public void getOrderByIdNotFound() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/api/products/100")
+                        .get("/api/orders/100")
                         .accept("application/json"))
                 .andDo(print())
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.httpCode").value(404))
                 .andExpect(jsonPath("$.message").value("Not Found"))
-                .andExpect(jsonPath("$.detailedMessage").value("Product of id 100 not found."));
+                .andExpect(jsonPath("$.detailedMessage").value("Order of id 100 not found."));
     }
 
     /**
      * 404
      */
     @Test
-    @Order(17)
-    public void updateProductWithIdNotFound() throws Exception {
-        var product = Product.builder()
-                .name("pc")
-                .description("personal computer")
-                .quantity(5)
-                .price(1000.0)
+    @org.junit.jupiter.api.Order(14)
+    public void updateOrderWithIdNotFound() throws Exception {
+        var order = Order.builder()
+                .description("sales 2")
                 .build();
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .put("/api/products/100")
+                        .put("/api/orders/100")
                         .contentType("application/json")
                         .accept("application/json")
-                        .content(asJsonString(product)))
+                        .content(asJsonString(order)))
                 .andDo(print())
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.httpCode").value(404))
                 .andExpect(jsonPath("$.message").value("Not Found"))
-                .andExpect(jsonPath("$.detailedMessage").value("Product of id 100 not found."));
+                .andExpect(jsonPath("$.detailedMessage").value("Order of id 100 not found."));
     }
 
     /**
      * 404
      */
     @Test
-    @Order(18)
-    public void deleteProductWithIdNotFound() throws Exception {
+    @org.junit.jupiter.api.Order(15)
+    public void deleteOrderWithIdNotFound() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                        .delete("/api/products/100"))
+                        .delete("/api/orders/100"))
                 .andDo(print())
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.httpCode").value(404))
                 .andExpect(jsonPath("$.message").value("Not Found"))
-                .andExpect(jsonPath("$.detailedMessage").value("Product of id 100 not found."));
+                .andExpect(jsonPath("$.detailedMessage").value("Order of id 100 not found."));
     }
 
     /**
      * 405
      */
     @Test
-    @Order(19)
+    @org.junit.jupiter.api.Order(16)
     public void methodNoAllowed() throws Exception {
 
-        var product = Product.builder()
-                .name("new tv")
-                .description("high definition television")
-                .quantity(10)
-                .price(500.0)
+        var order = Order.builder()
+                .description("sales 1")
                 .build();
         mockMvc.perform(MockMvcRequestBuilders
-                        .patch("/api/products")
+                        .patch("/api/orders")
                         .contentType("application/json")
                         .accept("application/json")
-                        .content(asJsonString(product)))
+                        .content(asJsonString(order)))
                 .andDo(print())
                 .andExpect(status().isMethodNotAllowed())
                 .andExpect(jsonPath("$.httpCode").value(405))
@@ -469,19 +374,17 @@ class ProductControllerTest {
      * 406
      */
     @Test
-    @Order(20)
+    @org.junit.jupiter.api.Order(17)
     public void acceptNotSet() throws Exception {
 
-        var product = Product.builder()
-                .name("new tv")
-                .description("high definition television")
-                .quantity(10)
-                .price(500.0)
+        var order = Order.builder()
+                .description("sales 1")
+                .totalAmount(0.0)
                 .build();
         mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/products")
+                        .post("/api/orders")
                         .contentType("application/json")
-                        .content(asJsonString(product)))
+                        .content(asJsonString(order)))
                 .andDo(print())
                 .andExpect(status().isNotAcceptable())
                 .andExpect(jsonPath("$.httpCode").value(406))
@@ -493,20 +396,17 @@ class ProductControllerTest {
      * 415
      */
     @Test
-    @Order(21)
+    @org.junit.jupiter.api.Order(18)
     public void contentTypedNotSupported() throws Exception {
 
-        var product = Product.builder()
-                .name("new tv")
-                .description("high definition television")
-                .quantity(10)
-                .price(500.0)
+        var order = Order.builder()
+                .description("sales 1")
                 .build();
         mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/products")
+                        .post("/api/orders")
                         .contentType("application/json2")
                         .accept("application/json")
-                        .content(asJsonString(product)))
+                        .content(asJsonString(order)))
                 .andDo(print())
                 .andExpect(status().isUnsupportedMediaType())
                 .andExpect(jsonPath("$.httpCode").value(415))
@@ -518,23 +418,23 @@ class ProductControllerTest {
      * 503
      */
     @Test
-    @Order(22)
+    @org.junit.jupiter.api.Order(19)
     public void notMappedException() throws Exception {
-        ProductRepository productRepository = Mockito.mock(ProductRepository.class);
-        ProductController productController = new ProductController(productRepository);
+        OrderRepository orderRepository = Mockito.mock(OrderRepository.class);
+        OrderController orderController = new OrderController(orderRepository);
 
         MockitoAnnotations.openMocks(this);
-        mockMvc = MockMvcBuilders.standaloneSetup(productController)
+        mockMvc = MockMvcBuilders.standaloneSetup(orderController)
                 .setControllerAdvice(new CustomExceptionHandler())
                 .build();
 
-        given(productRepository.findAll())
+        given(orderRepository.findAll())
                 .willAnswer(invocation -> {
                     throw new RuntimeException("Generic error.");
                 });
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/api/products")
+                        .get("/api/orders")
                         .contentType("application/json")
                         .accept("application/json"))
                 .andDo(print())
@@ -548,23 +448,23 @@ class ProductControllerTest {
      * 503
      */
     @Test
-    @Order(23)
+    @org.junit.jupiter.api.Order(20)
     public void serviceUnavailable() throws Exception {
-        ProductRepository productRepository = Mockito.mock(ProductRepository.class);
-        ProductController productController = new ProductController(productRepository);
+        OrderRepository orderRepository = Mockito.mock(OrderRepository.class);
+        OrderController orderController = new OrderController(orderRepository);
 
         MockitoAnnotations.openMocks(this);
-        mockMvc = MockMvcBuilders.standaloneSetup(productController)
+        mockMvc = MockMvcBuilders.standaloneSetup(orderController)
                 .setControllerAdvice(new CustomExceptionHandler())
                 .build();
 
-        given(productRepository.findAll())
+        given(orderRepository.findAll())
                 .willAnswer(invocation -> {
                     throw new ConnectException("Connection error.");
                 });
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/api/products")
+                        .get("/api/orders")
                         .contentType("application/json")
                         .accept("application/json"))
                 .andDo(print())

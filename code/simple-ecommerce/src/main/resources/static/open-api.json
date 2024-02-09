@@ -2271,13 +2271,19 @@
             "application/json": {
               "schema": {
                 "required": [
-                  "description"
+                  "description",
+                  "totalAmount"
                 ],
                 "type": "object",
                 "properties": {
                   "description": {
                     "type": "string",
                     "example": "sales 1"
+                  },
+                  "totalAmount": {
+                    "type": "number",
+                    "format": "double",
+                    "example": 0
                   }
                 },
                 "xml": {
@@ -2288,13 +2294,19 @@
             "application/xml": {
               "schema": {
                 "required": [
-                  "description"
+                  "description",
+                  "totalAmount"
                 ],
                 "type": "object",
                 "properties": {
                   "description": {
                     "type": "string",
                     "example": "sales 1"
+                  },
+                  "totalAmount": {
+                    "type": "number",
+                    "format": "double",
+                    "example": 0
                   }
                 },
                 "xml": {
@@ -3034,13 +3046,19 @@
             "application/json": {
               "schema": {
                 "required": [
-                  "description"
+                  "description",
+                  "totalAmount"
                 ],
                 "type": "object",
                 "properties": {
                   "description": {
                     "type": "string",
                     "example": "sales 1"
+                  },
+                  "totalAmount": {
+                    "type": "number",
+                    "format": "double",
+                    "example": 0
                   }
                 },
                 "xml": {
@@ -3051,13 +3069,19 @@
             "application/xml": {
               "schema": {
                 "required": [
-                  "description"
+                  "description",
+                  "totalAmount"
                 ],
                 "type": "object",
                 "properties": {
                   "description": {
                     "type": "string",
                     "example": "sales 1"
+                  },
+                  "totalAmount": {
+                    "type": "number",
+                    "format": "double",
+                    "example": 0
                   }
                 },
                 "xml": {
@@ -5972,13 +5996,19 @@
       },
       "OrderRequest": {
         "required": [
-          "description"
+          "description",
+          "totalAmount"
         ],
         "type": "object",
         "properties": {
           "description": {
             "type": "string",
             "example": "sales 1"
+          },
+          "totalAmount": {
+            "type": "number",
+            "format": "double",
+            "example": 0
           }
         },
         "xml": {
@@ -6155,13 +6185,19 @@
           "application/json": {
             "schema": {
               "required": [
-                "description"
+                "description",
+                "totalAmount"
               ],
               "type": "object",
               "properties": {
                 "description": {
                   "type": "string",
                   "example": "sales 1"
+                },
+                "totalAmount": {
+                  "type": "number",
+                  "format": "double",
+                  "example": 0
                 }
               },
               "xml": {
@@ -6172,13 +6208,19 @@
           "application/xml": {
             "schema": {
               "required": [
-                "description"
+                "description",
+                "totalAmount"
               ],
               "type": "object",
               "properties": {
                 "description": {
                   "type": "string",
                   "example": "sales 1"
+                },
+                "totalAmount": {
+                  "type": "number",
+                  "format": "double",
+                  "example": 0
                 }
               },
               "xml": {
