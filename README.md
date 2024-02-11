@@ -2,7 +2,7 @@
 
 
 ## Open API specificaton
-- [open-api.json](./api/open-api.json)
+- [open-api.json](./documents/api/open-api.json)
 - To run the application to visualize and execute all the api functions follow the instructions:
     1. Install [Docker](https://docs.docker.com/desktop/install/mac-install)
 
@@ -17,5 +17,5 @@
 
 
 ## Database specificaton
-- [schema.sql](./database/schema.sql)
-- [diagram](./database/simple_ecommerce_DB.png)
+- [schema.sql](./documents/database/schema.sql)
+- [diagram](./documents/database/simple_ecommerce_DB.png)
