@@ -1,9 +1,6 @@
 package com.ecommerce.simple.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -11,6 +8,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.SourceType;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.Instant;
 
 @Entity
 @NoArgsConstructor
@@ -24,6 +26,7 @@ public class Product {
 
     @NotBlank(message = "name is mandatory")
     @Size(max = 255)
+    @Column(unique = true)
     private String name;
 
     @Size(max = 255)
@@ -34,4 +37,10 @@ public class Product {
 
     @NotNull(message = "price is mandatory")
     private Double price;
+
+    @CreationTimestamp(source = SourceType.DB)
+    private Instant createdOn;
+
+    @UpdateTimestamp(source = SourceType.DB)
+    private Instant lastUpdatedOn;
 }

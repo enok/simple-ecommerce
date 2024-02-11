@@ -2,14 +2,12 @@ package com.ecommerce.simple.controller;
 
 import com.ecommerce.simple.exception.CustomExceptionHandler;
 import com.ecommerce.simple.model.Product;
-import com.ecommerce.simple.repository.ProductRepository;
+import com.ecommerce.simple.service.ProductService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +24,6 @@ import org.testcontainers.utility.DockerImageName;
 
 import java.net.ConnectException;
 
-import static org.mockito.ArgumentMatchers.anyMap;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -66,6 +63,7 @@ class ProductControllerTest {
                 .quantity(10)
                 .price(500.0)
                 .build();
+
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/api/products")
                         .contentType("application/json")
@@ -102,6 +100,7 @@ class ProductControllerTest {
                 .quantity(10)
                 .price(500.0)
                 .build();
+
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/api/products")
                         .contentType("application/json")
@@ -142,6 +141,7 @@ class ProductControllerTest {
                 .quantity(5)
                 .price(1000.0)
                 .build();
+
         mockMvc.perform(MockMvcRequestBuilders
                         .put("/api/products/1")
                         .contentType("application/json")
@@ -169,10 +169,10 @@ class ProductControllerTest {
                 .price(100.0)
                 .build();
         mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/products")
-                        .contentType("application/json")
-                        .accept("application/json")
-                        .content(asJsonString(product1)));
+                .post("/api/products")
+                .contentType("application/json")
+                .accept("application/json")
+                .content(asJsonString(product1)));
 
         var product = Product.builder()
                 .id(2)
@@ -231,6 +231,7 @@ class ProductControllerTest {
                 .quantity(10)
                 .price(500.0)
                 .build();
+
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/api/products")
                         .contentType("application/json")
@@ -272,6 +273,7 @@ class ProductControllerTest {
                 .quantity(10)
                 .price(500.0)
                 .build();
+
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/api/products")
                         .contentType("application/json")
@@ -295,6 +297,7 @@ class ProductControllerTest {
                 .description("high definition television")
                 .price(500.0)
                 .build();
+
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/api/products")
                         .contentType("application/json")
@@ -318,6 +321,7 @@ class ProductControllerTest {
                 .description("high definition television")
                 .quantity(10)
                 .build();
+
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/api/products")
                         .contentType("application/json")
@@ -370,7 +374,7 @@ class ProductControllerTest {
     @Order(15)
     public void getAllProductsNotFound() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                        .delete("/api/products/1"));
+                .delete("/api/products/1"));
         mockMvc.perform(MockMvcRequestBuilders
                 .delete("/api/products/3"));
 
@@ -441,18 +445,33 @@ class ProductControllerTest {
     }
 
     /**
-     * 405
+     * 404
      */
     @Test
     @Order(19)
-    public void methodNoAllowed() throws Exception {
+    public void deleteProductWithNotExistingPath() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders
+                        .delete("/api/products2"))
+                .andDo(print())
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.httpCode").value(404))
+                .andExpect(jsonPath("$.message").value("Not Found"))
+                .andExpect(jsonPath("$.detailedMessage").value("No static resource api/products2."));
+    }
 
+    /**
+     * 405
+     */
+    @Test
+    @Order(20)
+    public void methodNoAllowed() throws Exception {
         var product = Product.builder()
                 .name("new tv")
                 .description("high definition television")
                 .quantity(10)
                 .price(500.0)
                 .build();
+
         mockMvc.perform(MockMvcRequestBuilders
                         .patch("/api/products")
                         .contentType("application/json")
@@ -469,15 +488,15 @@ class ProductControllerTest {
      * 406
      */
     @Test
-    @Order(20)
+    @Order(21)
     public void acceptNotSet() throws Exception {
-
         var product = Product.builder()
                 .name("new tv")
                 .description("high definition television")
                 .quantity(10)
                 .price(500.0)
                 .build();
+
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/api/products")
                         .contentType("application/json")
@@ -493,15 +512,15 @@ class ProductControllerTest {
      * 415
      */
     @Test
-    @Order(21)
+    @Order(22)
     public void contentTypedNotSupported() throws Exception {
-
         var product = Product.builder()
                 .name("new tv")
                 .description("high definition television")
                 .quantity(10)
                 .price(500.0)
                 .build();
+
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/api/products")
                         .contentType("application/json2")
@@ -518,17 +537,17 @@ class ProductControllerTest {
      * 503
      */
     @Test
-    @Order(22)
+    @Order(23)
     public void notMappedException() throws Exception {
-        ProductRepository productRepository = Mockito.mock(ProductRepository.class);
-        ProductController productController = new ProductController(productRepository);
+        ProductService productService = Mockito.mock(ProductService.class);
+        ProductController productController = new ProductController(productService);
 
         MockitoAnnotations.openMocks(this);
         mockMvc = MockMvcBuilders.standaloneSetup(productController)
                 .setControllerAdvice(new CustomExceptionHandler())
                 .build();
 
-        given(productRepository.findAll())
+        given(productService.getProducts())
                 .willAnswer(invocation -> {
                     throw new RuntimeException("Generic error.");
                 });
@@ -548,17 +567,17 @@ class ProductControllerTest {
      * 503
      */
     @Test
-    @Order(23)
+    @Order(24)
     public void serviceUnavailable() throws Exception {
-        ProductRepository productRepository = Mockito.mock(ProductRepository.class);
-        ProductController productController = new ProductController(productRepository);
+        ProductService productService = Mockito.mock(ProductService.class);
+        ProductController productController = new ProductController(productService);
 
         MockitoAnnotations.openMocks(this);
         mockMvc = MockMvcBuilders.standaloneSetup(productController)
                 .setControllerAdvice(new CustomExceptionHandler())
                 .build();
 
-        given(productRepository.findAll())
+        given(productService.getProducts())
                 .willAnswer(invocation -> {
                     throw new ConnectException("Connection error.");
                 });

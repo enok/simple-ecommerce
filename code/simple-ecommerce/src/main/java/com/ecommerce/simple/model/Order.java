@@ -7,6 +7,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.SourceType;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.Instant;
 
 @Entity
 @NoArgsConstructor
@@ -21,8 +26,15 @@ public class Order {
 
     @NotNull(message = "description is mandatory")
     @Size(max = 255)
+    @Column(unique = true)
     private String description;
 
-    @NotNull(message = "totalAmount is mandatory")
     private Double totalAmount;
+
+    @CreationTimestamp(source = SourceType.DB)
+    private Instant createdOn;
+
+    @UpdateTimestamp(source = SourceType.DB)
+    private Instant lastUpdatedOn;
 }
+

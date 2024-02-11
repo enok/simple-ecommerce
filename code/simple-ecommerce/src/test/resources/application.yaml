@@ -11,4 +11,4 @@ spring:
   sql.init.mode: always
 logging:
   level:
-    com.ecommerce.simple: debug
+    com.ecommerce.simple: trace

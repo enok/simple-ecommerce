@@ -2,7 +2,7 @@ package com.ecommerce.simple.controller;
 
 import com.ecommerce.simple.exception.CustomExceptionHandler;
 import com.ecommerce.simple.model.Order;
-import com.ecommerce.simple.repository.OrderRepository;
+import com.ecommerce.simple.service.OrderService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
@@ -58,8 +58,8 @@ class OrderControllerTest {
     public void createOrder() throws Exception {
         var order = Order.builder()
                 .description("sales 1")
-                .totalAmount(0.0)
                 .build();
+
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/api/orders")
                         .contentType("application/json")
@@ -91,7 +91,7 @@ class OrderControllerTest {
      * 200
      */
     @Test
-    @org.junit.jupiter.api.Order(4)
+    @org.junit.jupiter.api.Order(3)
     public void getOrderById() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/api/orders/1")
@@ -107,7 +107,7 @@ class OrderControllerTest {
      * 200
      */
     @Test
-    @org.junit.jupiter.api.Order(5)
+    @org.junit.jupiter.api.Order(4)
     public void updateOrder() throws Exception {
         var order = Order.builder()
                 .description("sales 2")
@@ -130,17 +130,16 @@ class OrderControllerTest {
      * 200
      */
     @Test
-    @org.junit.jupiter.api.Order(6)
+    @org.junit.jupiter.api.Order(5)
     public void updateOrderTryingToChangeAnotherOrder() throws Exception {
         var order1 = Order.builder()
                 .description("sales 10")
-                .totalAmount(0.0)
                 .build();
         mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/orders")
-                        .contentType("application/json")
-                        .accept("application/json")
-                        .content(asJsonString(order1)));
+                .post("/api/orders")
+                .contentType("application/json")
+                .accept("application/json")
+                .content(asJsonString(order1)));
 
         var order = Order.builder()
                 .id(2)
@@ -173,7 +172,7 @@ class OrderControllerTest {
      * 200
      */
     @Test
-    @org.junit.jupiter.api.Order(7)
+    @org.junit.jupiter.api.Order(6)
     public void deleteOrder() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
                         .delete("/api/orders/2"))
@@ -185,11 +184,11 @@ class OrderControllerTest {
      * 400
      */
     @Test
-    @org.junit.jupiter.api.Order(8)
+    @org.junit.jupiter.api.Order(7)
     public void createOrderWithoutDescription() throws Exception {
         var order = Order.builder()
-                .totalAmount(0.0)
                 .build();
+
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/api/orders")
                         .contentType("application/json")
@@ -207,27 +206,6 @@ class OrderControllerTest {
      */
     @Test
     @org.junit.jupiter.api.Order(8)
-    public void createOrderWithoutAmount() throws Exception {
-        var order = Order.builder()
-                .description("sales 2")
-                .build();
-        mockMvc.perform(MockMvcRequestBuilders
-                        .post("/api/orders")
-                        .contentType("application/json")
-                        .accept("application/json")
-                        .content(asJsonString(order)))
-                .andDo(print())
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.httpCode").value(400))
-                .andExpect(jsonPath("$.message").value("Bad Request"))
-                .andExpect(jsonPath("$.detailedMessage").value("[totalAmount is mandatory]"));
-    }
-
-    /**
-     * 400
-     */
-    @Test
-    @org.junit.jupiter.api.Order(9)
     public void createOrderWithoutBody() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/api/orders")
@@ -245,7 +223,7 @@ class OrderControllerTest {
      * 400
      */
     @Test
-    @org.junit.jupiter.api.Order(10)
+    @org.junit.jupiter.api.Order(9)
     public void createOrderWithEmptyBody() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/api/orders")
@@ -256,14 +234,14 @@ class OrderControllerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.httpCode").value(400))
                 .andExpect(jsonPath("$.message").value("Bad Request"))
-                .andExpect(jsonPath("$.detailedMessage").value("[description is mandatory, totalAmount is mandatory]"));
+                .andExpect(jsonPath("$.detailedMessage").value("[description is mandatory]"));
     }
 
     /**
      * 404
      */
     @Test
-    @org.junit.jupiter.api.Order(11)
+    @org.junit.jupiter.api.Order(10)
     public void deleteOrderNotFound() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
                         .delete("/api/orders/2"))
@@ -278,10 +256,10 @@ class OrderControllerTest {
      * 404
      */
     @Test
-    @org.junit.jupiter.api.Order(12)
+    @org.junit.jupiter.api.Order(11)
     public void getAllOrdersNotFound() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                        .delete("/api/orders/1"));
+                .delete("/api/orders/1"));
         mockMvc.perform(MockMvcRequestBuilders
                 .delete("/api/orders/3"));
 
@@ -299,7 +277,7 @@ class OrderControllerTest {
      * 404
      */
     @Test
-    @org.junit.jupiter.api.Order(13)
+    @org.junit.jupiter.api.Order(12)
     public void getOrderByIdNotFound() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/api/orders/100")
@@ -315,7 +293,7 @@ class OrderControllerTest {
      * 404
      */
     @Test
-    @org.junit.jupiter.api.Order(14)
+    @org.junit.jupiter.api.Order(13)
     public void updateOrderWithIdNotFound() throws Exception {
         var order = Order.builder()
                 .description("sales 2")
@@ -337,7 +315,7 @@ class OrderControllerTest {
      * 404
      */
     @Test
-    @org.junit.jupiter.api.Order(15)
+    @org.junit.jupiter.api.Order(14)
     public void deleteOrderWithIdNotFound() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
                         .delete("/api/orders/100"))
@@ -352,12 +330,12 @@ class OrderControllerTest {
      * 405
      */
     @Test
-    @org.junit.jupiter.api.Order(16)
+    @org.junit.jupiter.api.Order(15)
     public void methodNoAllowed() throws Exception {
-
         var order = Order.builder()
                 .description("sales 1")
                 .build();
+
         mockMvc.perform(MockMvcRequestBuilders
                         .patch("/api/orders")
                         .contentType("application/json")
@@ -374,13 +352,12 @@ class OrderControllerTest {
      * 406
      */
     @Test
-    @org.junit.jupiter.api.Order(17)
+    @org.junit.jupiter.api.Order(16)
     public void acceptNotSet() throws Exception {
-
         var order = Order.builder()
                 .description("sales 1")
-                .totalAmount(0.0)
                 .build();
+
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/api/orders")
                         .contentType("application/json")
@@ -396,12 +373,12 @@ class OrderControllerTest {
      * 415
      */
     @Test
-    @org.junit.jupiter.api.Order(18)
+    @org.junit.jupiter.api.Order(17)
     public void contentTypedNotSupported() throws Exception {
-
         var order = Order.builder()
                 .description("sales 1")
                 .build();
+
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/api/orders")
                         .contentType("application/json2")
@@ -418,17 +395,17 @@ class OrderControllerTest {
      * 503
      */
     @Test
-    @org.junit.jupiter.api.Order(19)
+    @org.junit.jupiter.api.Order(18)
     public void notMappedException() throws Exception {
-        OrderRepository orderRepository = Mockito.mock(OrderRepository.class);
-        OrderController orderController = new OrderController(orderRepository);
+        OrderService orderService = Mockito.mock(OrderService.class);
+        OrderController orderController = new OrderController(orderService);
 
         MockitoAnnotations.openMocks(this);
         mockMvc = MockMvcBuilders.standaloneSetup(orderController)
                 .setControllerAdvice(new CustomExceptionHandler())
                 .build();
 
-        given(orderRepository.findAll())
+        given(orderService.getOrders())
                 .willAnswer(invocation -> {
                     throw new RuntimeException("Generic error.");
                 });
@@ -448,17 +425,17 @@ class OrderControllerTest {
      * 503
      */
     @Test
-    @org.junit.jupiter.api.Order(20)
+    @org.junit.jupiter.api.Order(19)
     public void serviceUnavailable() throws Exception {
-        OrderRepository orderRepository = Mockito.mock(OrderRepository.class);
-        OrderController orderController = new OrderController(orderRepository);
+        OrderService orderService = Mockito.mock(OrderService.class);
+        OrderController orderController = new OrderController(orderService);
 
         MockitoAnnotations.openMocks(this);
         mockMvc = MockMvcBuilders.standaloneSetup(orderController)
                 .setControllerAdvice(new CustomExceptionHandler())
                 .build();
 
-        given(orderRepository.findAll())
+        given(orderService.getOrders())
                 .willAnswer(invocation -> {
                     throw new ConnectException("Connection error.");
                 });

@@ -1,19 +1,16 @@
 package com.ecommerce.simple.controller;
 
-import com.ecommerce.simple.exception.NotFoundException;
+import com.ecommerce.simple.dto.OrderRequestDTO;
+import com.ecommerce.simple.dto.OrderResponseDTO;
 import com.ecommerce.simple.model.Order;
-import com.ecommerce.simple.repository.OrderRepository;
+import com.ecommerce.simple.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
-
-import static java.lang.String.format;
 
 @RestController
 @RequestMapping("/api/orders")
@@ -21,71 +18,59 @@ import static java.lang.String.format;
 @Slf4j
 public class OrderController {
 
-    private final OrderRepository orderRepository;
+    private final OrderService orderService;
 
     @PostMapping(consumes = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE},
             produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
-    public Order createOrder(@RequestBody Order order) {
-        log.debug("[ createOrder ] order: {}", order);
+    public OrderResponseDTO createOrder(@RequestBody OrderRequestDTO orderRequestDTO) {
+        log.info("[ createOrder ] orderRequestDTO: {}", orderRequestDTO);
 
-        Order orderCreated = orderRepository.save(order);
-        log.debug("Order created: {}", orderCreated);
+        OrderResponseDTO orderResponseDTO = orderService.saveOrder(orderRequestDTO);
+        log.info("orderResponseDTO: {}", orderResponseDTO);
 
-        return orderCreated;
+        return orderResponseDTO;
     }
 
     @GetMapping(produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
-    public List<Order> getAllOrders() {
-        log.debug("[ getAllOrders ]");
-        List<Order> allOrders = orderRepository.findAll();
-        log.debug("Orders found: {}", allOrders);
+    public List<OrderResponseDTO> getAllOrders() {
+        log.info("[ getAllOrders ]");
 
-        if (CollectionUtils.isEmpty(allOrders)) {
-            throw new NotFoundException("No orders found.");
-        }
+        List<OrderResponseDTO> orderResponseDTOList = orderService.getOrders();
+        log.info("orderResponseDTOList: {}", orderResponseDTOList);
 
-        return allOrders;
+        return orderResponseDTOList;
     }
 
     @GetMapping(value = "/{id}",
             produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
-    public Order getOrderById(@PathVariable Integer id) {
-        log.debug("[ getOrderById ] id: {}", id);
+    public OrderResponseDTO getOrderById(@PathVariable Integer id) {
+        log.info("[ getOrderById ] id: {}", id);
 
-        Optional<Order> order = orderRepository.findById(id);
-        log.debug("Order found: {}", order);
+        OrderResponseDTO orderResponseDTO = orderService.getOrder(id);
+        log.info("orderResponseDTO: {}", orderResponseDTO);
 
-        return order.orElseThrow(() -> new NotFoundException(format("Order of id %d not found.", id)));
+        return orderResponseDTO;
     }
 
     @PutMapping(value = "/{id}",
             consumes = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE},
             produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE})
-    public Order updateOrderById(@PathVariable Integer id, @RequestBody Order order) {
-        log.debug("[ updateOrderById ] id: {}, order: {}", id, order);
+    public OrderResponseDTO updateOrderById(@PathVariable Integer id, @RequestBody Order order) {
+        log.info("[ updateOrderById ] id: {}, order: {}", id, order);
 
-        // checks if the order exist with such id
-        getOrderById(id);
+        OrderResponseDTO orderResponseDTO = orderService.updateOrder(id, order);
+        log.info("orderResponseDTO: {}", orderResponseDTO);
 
-        // ensures that order has the correct id
-        order.setId(id);
-
-        Order orderUpdated = orderRepository.save(order);
-        log.debug("Order updated: {}", orderUpdated);
-
-        return orderUpdated;
+        return orderResponseDTO;
     }
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteOrderById(@PathVariable Integer id) {
-        log.debug("[ deleteOrderById ] id: {}", id);
+        log.info("[ deleteOrderById ] id: {}", id);
 
-        // checks if the order exist with such id
-        getOrderById(id);
+        ResponseEntity<Void> voidResponseEntity = orderService.deleteOrder(id);
+        log.info("voidResponseEntity: {}", voidResponseEntity);
 
-        orderRepository.deleteById(id);
-        log.debug("Order deleted: {}", id);
-
-        return ResponseEntity.noContent().build();
+        return voidResponseEntity;
     }
 }

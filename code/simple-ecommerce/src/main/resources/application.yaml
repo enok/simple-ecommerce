@@ -14,3 +14,6 @@ springdoc:
   api-docs.enabled: false
   swagger-ui.url: /open-api.json
   show-actuator: true
+logging:
+  level:
+    com.ecommerce.simple: trace

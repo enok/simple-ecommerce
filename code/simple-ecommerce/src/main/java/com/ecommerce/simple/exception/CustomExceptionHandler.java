@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.converter.HttpMessageNotWritableException;
 import org.springframework.lang.NonNull;
-import org.springframework.web.HttpMediaTypeNotAcceptableException;
+import org.springframework.lang.Nullable;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import javax.naming.ServiceUnavailableException;
 import java.net.ConnectException;
@@ -63,13 +64,26 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
      * 400
      */
     @NonNull
-    @ExceptionHandler(value = {DuplicateKeyValueException.class})
+    @ExceptionHandler(value = {DuplicateKeyValueException.class, NoProductLeftOverException.class, MandatoryFieldMissingException.class})
     @ResponseStatus(BAD_REQUEST)
-    public ResponseEntity<Object> handleDuplicateKeyValueException(@NonNull DuplicateKeyValueException ex) {
-        log.error("[ handleDuplicateKeyValueException ] {}", ex.getMessage());
+    public ResponseEntity<Object> handleCustomBadRequestException(@NonNull Exception ex) {
+        log.error("[ handleCustomBadRequestException ] {}", ex.getMessage());
         return ResponseEntity
                 .badRequest()
                 .body(new Error(BAD_REQUEST, ex));
+    }
+
+    /**
+     * 404
+     */
+    @Nullable
+    @ResponseStatus(NOT_FOUND)
+    protected ResponseEntity<Object> handleNoResourceFoundException(@NonNull NoResourceFoundException ex,
+                                                                    @NonNull HttpHeaders headers,
+                                                                    @NonNull HttpStatusCode status,
+                                                                    @NonNull WebRequest request) {
+        log.error("[ handleNoResourceFoundException ] {}", ex.getMessage());
+        return new ResponseEntity<>(new Error(NOT_FOUND, ex), NOT_FOUND);
     }
 
     /**
